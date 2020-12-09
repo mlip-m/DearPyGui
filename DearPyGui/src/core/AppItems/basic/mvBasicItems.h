@@ -55,7 +55,6 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 
 	private:
-
 		bool     m_small = false;
 		bool     m_arrow = false;
 		ImGuiDir m_direction = ImGuiDir_Up;
@@ -63,7 +62,7 @@ namespace Marvel {
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvButton
+	// mvButtonSingleton
 	//-----------------------------------------------------------------------------
 	class mvButtonSingleton
 	{
@@ -80,7 +79,7 @@ namespace Marvel {
 	private:
 		std::vector<std::pair<int, mvColor>> iColors() { return m_colors; }
 		mvButtonSingleton() {};
-		std::vector<std::pair<int, mvColor>> m_colors;
+		std::vector<std::pair<int, mvColor>> m_colors = 0,(0,0,0,0)};
 
 	};
 
