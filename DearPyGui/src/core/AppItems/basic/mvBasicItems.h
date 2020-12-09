@@ -63,6 +63,28 @@ namespace Marvel {
 	};
 
 	//-----------------------------------------------------------------------------
+	// mvButton
+	//-----------------------------------------------------------------------------
+	class mvButtonSingleton
+	{
+
+	public:
+		mvButtonSingleton(const mvButtonSingleton&) = delete;
+		static mvButtonSingleton& get()
+		{
+			static mvButtonSingleton s_button;
+			return s_button;
+		}
+
+		static std::vector<mvColor> Colors() { return get().iColors(); }
+	private:
+		std::vector<mvColor> iColors() { return m_colors; }
+		mvButtonSingleton() {};
+		std::vector<std::pair(int, mvColor)> m_colors;
+
+	};
+
+	//-----------------------------------------------------------------------------
 	// mvCheckbox
 	//-----------------------------------------------------------------------------
 	class mvCheckbox : public mvBoolPtrBase

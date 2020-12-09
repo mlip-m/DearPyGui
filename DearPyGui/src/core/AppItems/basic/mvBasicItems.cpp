@@ -84,6 +84,7 @@ namespace Marvel {
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
 
+		styleManager.addColorStyle(mvButtonSingleton::Colors())
 		if (!m_enabled)
 		{
 			ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
