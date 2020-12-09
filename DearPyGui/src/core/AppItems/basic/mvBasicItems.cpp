@@ -84,11 +84,9 @@ namespace Marvel {
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
 
-		for (std::pair<int, mvColor> item : mvButtonSingleton::Colors())
+		for (auto& item : mvButtonSingleton::Colors())
 		{
-			ImGuiCol style = item.first();
-			mvColor color = item.second();
-			ImGui::PushStyleColor(style, color.toVec4());
+			styleManager.addColorStyle(item.first, item.second.toVec4());
 		}
 
 		if (!m_enabled)

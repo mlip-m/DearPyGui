@@ -79,7 +79,7 @@ namespace Marvel {
 	private:
 		std::vector<std::pair<int, mvColor>> iColors() { return m_colors; }
 		mvButtonSingleton() {};
-		std::vector<std::pair<int, mvColor>> m_colors = 0,(0,0,0,0)};
+		std::vector<std::pair<int, mvColor>> m_colors {std::make_pair(21, mvColor{0,0,0,255}) };
 
 	};
 
