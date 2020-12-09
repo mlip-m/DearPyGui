@@ -76,11 +76,11 @@ namespace Marvel {
 			return s_button;
 		}
 
-		static std::vector<mvColor> Colors() { return get().iColors(); }
+		static std::vector<std::pair<int, mvColor>> Colors() { return get().iColors(); }
 	private:
-		std::vector<mvColor> iColors() { return m_colors; }
+		std::vector<std::pair<int, mvColor>> iColors() { return m_colors; }
 		mvButtonSingleton() {};
-		std::vector<std::pair(int, mvColor)> m_colors;
+		std::vector<std::pair<int, mvColor>> m_colors;
 
 	};
 
