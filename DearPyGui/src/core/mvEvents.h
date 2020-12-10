@@ -7,6 +7,7 @@
 #include <variant>
 #include "mvCompileTimeCRC32.h"
 #include "mvEventMacros.h"
+#include "mvCore.h"
 
 #define BIND_EVENT_METH(x) std::bind(&x, this, std::placeholders::_1)
 
@@ -22,7 +23,8 @@ namespace Marvel {
 		std::string, 
 		bool, 
 		float, 
-		void*
+		void*,
+		mvColor
 	>; // more types can be added
 	
 	// hashing function
@@ -39,6 +41,7 @@ namespace Marvel {
 	bool               GetEBool  (mvEvent& event, const char* name);
 	int                GetEInt   (mvEvent& event, const char* name);
 	float              GetEFloat (mvEvent& event, const char* name);
+	mvColor            GetEColor (mvEvent& event, const char* name);
 
 	//-----------------------------------------------------------------------------
 	// mvEvent

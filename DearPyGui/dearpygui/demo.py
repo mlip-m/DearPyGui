@@ -271,6 +271,9 @@ def show_demo():
                     set_item_style_var(f"Click##{i}", mvGuiStyleVar_FrameRounding, [i*5])
                     set_item_style_var(f"Click##{i}", mvGuiStyleVar_FramePadding, [i*3, i*3])
                     disable_items.append(f"Click##{i}")
+                add_button("mvGuiCol_Button",callback = lambda sender, data: set_global_color(mvGuiCol_Button, [0,0,0,255]))
+                add_button("mvGuiCol_ButtonHovered",callback = lambda sender, data: set_global_color(mvGuiCol_ButtonHovered, [250,250,250,255]))
+                add_button("mvGuiCol_ButtonActive",callback = lambda sender, data: set_global_color(mvGuiCol_ButtonActive, [175,175,175,255]))
                 with group("increment_buttons##demo", horizontal=True):
                     add_text("Press a button: ")
                     add_button("Left##demo", arrow=True, direction=mvDir_Left, 

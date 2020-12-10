@@ -1,5 +1,6 @@
 #include "mvThemeInterface.h"
 #include "mvInterfaceCore.h"
+#include "mvEvents.h"
 
 namespace Marvel {
 
@@ -25,6 +26,11 @@ namespace Marvel {
 
 		parsers->insert({ "get_theme", mvPythonParser({
 		}, "Returns the current theme.", "str", "Themes and Styles") });
+
+		parsers->insert({ "set_global_color", mvPythonParser({
+			{mvPythonDataType::Integer, "style", "mvGuiCol_* constants"},
+			{mvPythonDataType::FloatList, "color"}
+		}, "Sets an color of a theme item.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_item_color", mvPythonParser({
 			{mvPythonDataType::String, "item"},
@@ -353,6 +359,40 @@ namespace Marvel {
 			return GetPyNone();
 
 		mvApp::GetApp()->setThemeItem(item, { r, g, b, a });
+
+		return GetPyNone();
+	}
+
+	PyObject* set_global_color(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int style; //this would be a constant to a string instead of constant to a int on the python side 
+		PyObject* color;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_global_color"].parse(args, kwargs, __FUNCTION__, &style, &color))
+			return GetPyNone();
+
+		std::string ID;
+
+		//below wouldnt exist because color constant would alread be a string
+		switch (style) {
+		case 21: ID = "mvGuiCol_Button"; break;
+		case 22: ID = "mvGuiCol_ButtonHovered"; break;
+		case 23: ID = "mvGuiCol_ButtonActive"; break;
+		default:
+			break;
+		}
+
+		if (!ID.empty()) {
+			mvEventBus::Publish
+			(
+				SID("THEME_AND_STYLE"),
+				SID("SET_GLOBAL_COLOR"),
+				{
+					CreateEventArgument("COLOR_CONSTANT", ID),
+					CreateEventArgument("COLOR", ToColor(color))
+				}
+			);
+		}
 
 		return GetPyNone();
 	}

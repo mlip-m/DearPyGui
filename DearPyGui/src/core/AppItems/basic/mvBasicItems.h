@@ -1,6 +1,8 @@
 #pragma once
 
 #include "core/AppItems/mvTypeBases.h"
+#include <iostream>
+#include "mvEvents.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -64,22 +66,59 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvButtonSingleton
 	//-----------------------------------------------------------------------------
-	class mvButtonSingleton
+	class mvButtonSingleton : public mvEventHandler
 	{
 
 	public:
+
 		mvButtonSingleton(const mvButtonSingleton&) = delete;
-		static mvButtonSingleton& get()
+
+		static std::vector<std::pair<int, mvColor>> Colors() { return get()->iColors(); }
+
+	private:
+
+		mvButtonSingleton()
 		{
-			static mvButtonSingleton s_button;
-			return s_button;
+			mvEventBus::Subscribe(this, SID("SET_GLOBAL_COLOR"));
+		};
+
+		static mvButtonSingleton* s_instance;
+
+		static mvButtonSingleton* get()
+		{
+			if (s_instance == nullptr)
+				s_instance = new mvButtonSingleton();
+			return s_instance;
 		}
 
-		static std::vector<std::pair<int, mvColor>> Colors() { return get().iColors(); }
-	private:
+		bool onEvent(mvEvent& event) override {
+			mvEventDispatcher dispatcher(event);
+
+			dispatcher.dispatch(BIND_EVENT_METH(mvButtonSingleton::add_color), SID("SET_GLOBAL_COLOR"));
+
+			return event.handled;
+		};
+
 		std::vector<std::pair<int, mvColor>> iColors() { return m_colors; }
-		mvButtonSingleton() {};
-		std::vector<std::pair<int, mvColor>> m_colors {std::make_pair(21, mvColor{0,0,0,255}) };
+
+		std::vector<std::pair<int, mvColor>> m_colors;
+
+		bool add_color(mvEvent& event)
+		{
+			if (GetEString(event, "COLOR_CONSTANT") == "mvGuiCol_Button")
+			{
+				this->m_colors.push_back({ std::make_pair(21, GetEColor(event, "COLOR")) });
+			}
+			else if (GetEString(event, "COLOR_CONSTANT") == "mvGuiCol_ButtonHovered")
+			{
+				this->m_colors.push_back({ std::make_pair(22, GetEColor(event, "COLOR")) });
+			}
+			else if (GetEString(event, "COLOR_CONSTANT") == "mvGuiCol_ButtonActive")
+			{
+				this->m_colors.push_back({ std::make_pair(23, GetEColor(event, "COLOR")) });
+			}
+			return false;
+		}
 
 	};
 
