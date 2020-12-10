@@ -89,7 +89,6 @@ namespace Marvel {
 		for (auto& item : mvButtonSingleton::Colors())
 		{
 			ImGui::PushStyleColor(item.first, item.second.toVec4());
-			//styleManager.addColorStyle(item.first, item.second.toVec4());
 		}
 
 		if (!m_enabled)
