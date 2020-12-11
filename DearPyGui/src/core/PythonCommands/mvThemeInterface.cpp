@@ -388,7 +388,7 @@ namespace Marvel {
 				SID("THEME_AND_STYLE"),
 				SID("SET_GLOBAL_COLOR"),
 				{
-					CreateEventArgument("COLOR_CONSTANT", ID),
+					CreateEventArgument("COLOR_CONSTANT", style),
 					CreateEventArgument("COLOR", ToColor(color))
 				}
 			);

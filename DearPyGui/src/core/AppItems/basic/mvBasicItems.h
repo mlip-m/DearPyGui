@@ -3,6 +3,8 @@
 #include "core/AppItems/mvTypeBases.h"
 #include <iostream>
 #include "mvEvents.h"
+#include <unordered_map> 
+
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -66,35 +68,35 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvButtonSingleton
 	//-----------------------------------------------------------------------------
-	class mvButtonSingleton : public mvEventHandler
+	class mvAppItemSingleton : public mvEventHandler
 	{
 
 	public:
 
-		mvButtonSingleton(const mvButtonSingleton&) = delete;
+		mvAppItemSingleton(const mvAppItemSingleton&) = delete;
 
 		static std::vector<std::pair<int, mvColor>> Colors() { return get()->iColors(); }
 
 	private:
 
-		mvButtonSingleton()
+		mvAppItemSingleton()
 		{
 			mvEventBus::Subscribe(this, SID("SET_GLOBAL_COLOR"));
 		};
 
-		static mvButtonSingleton* s_instance;
+		static mvAppItemSingleton* s_instance;
 
-		static mvButtonSingleton* get()
+		static mvAppItemSingleton* get()
 		{
 			if (s_instance == nullptr)
-				s_instance = new mvButtonSingleton();
+				s_instance = new mvAppItemSingleton();
 			return s_instance;
 		}
 
 		bool onEvent(mvEvent& event) override {
 			mvEventDispatcher dispatcher(event);
 
-			dispatcher.dispatch(BIND_EVENT_METH(mvButtonSingleton::add_color), SID("SET_GLOBAL_COLOR"));
+			dispatcher.dispatch(BIND_EVENT_METH(mvAppItemSingleton::add_color), SID("SET_GLOBAL_COLOR"));
 
 			return event.handled;
 		};
@@ -103,20 +105,12 @@ namespace Marvel {
 
 		std::vector<std::pair<int, mvColor>> m_colors;
 
+		std::unordered_map<std::string, int> colorMapping = colorMap;
+
 		bool add_color(mvEvent& event)
 		{
-			if (GetEString(event, "COLOR_CONSTANT") == "mvGuiCol_Button")
-			{
-				this->m_colors.push_back({ std::make_pair(21, GetEColor(event, "COLOR")) });
-			}
-			else if (GetEString(event, "COLOR_CONSTANT") == "mvGuiCol_ButtonHovered")
-			{
-				this->m_colors.push_back({ std::make_pair(22, GetEColor(event, "COLOR")) });
-			}
-			else if (GetEString(event, "COLOR_CONSTANT") == "mvGuiCol_ButtonActive")
-			{
-				this->m_colors.push_back({ std::make_pair(23, GetEColor(event, "COLOR")) });
-			}
+			//looks up the library specific color constand from the 
+			this->m_colors.push_back({ std::make_pair(this->colorMapping[GetEString(event, "COLOR_CONSTANT")]), GetEColor(event, "COLOR")) });
 			return false;
 		}
 
