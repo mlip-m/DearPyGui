@@ -66,7 +66,7 @@ namespace Marvel {
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvButtonSingleton
+	// mvAppItemSingleton
 	//-----------------------------------------------------------------------------
 	class mvAppItemSingleton : public mvEventHandler
 	{
@@ -81,7 +81,7 @@ namespace Marvel {
 
 		mvAppItemSingleton()
 		{
-			mvEventBus::Subscribe(this, SID("SET_GLOBAL_COLOR"));
+			mvEventBus::Subscribe(this, SID("1"));
 		};
 
 		static mvAppItemSingleton* s_instance;
@@ -95,9 +95,7 @@ namespace Marvel {
 
 		bool onEvent(mvEvent& event) override {
 			mvEventDispatcher dispatcher(event);
-
-			dispatcher.dispatch(BIND_EVENT_METH(mvAppItemSingleton::add_color), SID("SET_GLOBAL_COLOR"));
-
+			dispatcher.dispatch(BIND_EVENT_METH(mvAppItemSingleton::add_color), SID("1"));
 			return event.handled;
 		};
 
@@ -105,12 +103,9 @@ namespace Marvel {
 
 		std::vector<std::pair<int, mvColor>> m_colors;
 
-		std::unordered_map<std::string, int> colorMapping = colorMap;
-
 		bool add_color(mvEvent& event)
 		{
-			//looks up the library specific color constand from the 
-			this->m_colors.push_back({ std::make_pair(this->colorMapping[GetEString(event, "COLOR_CONSTANT")]), GetEColor(event, "COLOR")) });
+			this->m_colors.push_back({ std::make_pair(GetEInt(event, "ID") % 100, GetEColor(event, "COLOR")) });
 			return false;
 		}
 

@@ -1002,6 +1002,10 @@ def set_exit_callback(callback: Any) -> None:
 	"""Callback to run when exiting main window."""
 	...
 
+def set_global_color(themeColorID: int, color: List[float]) -> None:
+	"""Sets an color of a theme item."""
+	...
+
 def set_global_font_scale(scale: float) -> None:
 	"""Changes the global font scale."""
 	...

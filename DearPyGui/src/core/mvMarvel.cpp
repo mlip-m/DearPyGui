@@ -175,6 +175,13 @@ namespace Marvel {
 			{"mvGuiCol_ModalWindowDimBg"     , 47}, // Darken/colorize entire screen behind a modal window, when one is active
 
 			//-----------------------------------------------------------------------------
+			// NEW Theme Color IDs
+			//-----------------------------------------------------------------------------
+			{ "mvThemeCol_Button"               , 121 },
+			{ "mvThemeCol_ButtonHovered"        , 122 },
+			{ "mvThemeCol_ButtonActive"         , 123 },
+
+			//-----------------------------------------------------------------------------
 			// Theme style variable IDs
 			//-----------------------------------------------------------------------------
 			{ "mvGuiStyleVar_Alpha",               0 },
