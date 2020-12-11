@@ -73,35 +73,25 @@ namespace Marvel {
 
 	public:
 
-		mvAppItemSingleton(const mvAppItemSingleton&) = delete;
-
-		static std::vector<std::pair<int, mvColor>> Colors() { return get()->iColors(); }
-
-	private:
-
-		mvAppItemSingleton()
+		mvAppItemSingleton(int itemCode)
+			:itemCode(itemCode)
 		{
 			mvEventBus::Subscribe(this, SID("1"));
 		};
 
-		static mvAppItemSingleton* s_instance;
+		std::vector<std::pair<int, mvColor>> getColors() { return m_colors; }
 
-		static mvAppItemSingleton* get()
-		{
-			if (s_instance == nullptr)
-				s_instance = new mvAppItemSingleton();
-			return s_instance;
-		}
+	private:
 
 		bool onEvent(mvEvent& event) override {
 			mvEventDispatcher dispatcher(event);
-			dispatcher.dispatch(BIND_EVENT_METH(mvAppItemSingleton::add_color), SID("1"));
+			dispatcher.dispatch(BIND_EVENT_METH(mvAppItemSingleton::add_color), SID(std::to_string(itemCode).c_str()));
 			return event.handled;
 		};
 
-		std::vector<std::pair<int, mvColor>> iColors() { return m_colors; }
-
 		std::vector<std::pair<int, mvColor>> m_colors;
+
+		int itemCode;
 
 		bool add_color(mvEvent& event)
 		{

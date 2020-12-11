@@ -73,7 +73,7 @@ namespace Marvel {
 		checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags, false);
 	}
 
-	mvAppItemSingleton* mvAppItemSingleton::s_instance = nullptr;
+	mvAppItemSingleton buttonTheme = mvAppItemSingleton{ 1 };
 
 	mvButton::mvButton(const std::string& name)
 		: mvAppItem(name)
@@ -86,7 +86,7 @@ namespace Marvel {
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
 
-		for (auto& item : mvAppItemSingleton::Colors())
+		for (auto& item : buttonTheme.getColors())
 		{
 			ImGui::PushStyleColor(item.first, item.second.toVec4());
 		}
@@ -106,7 +106,7 @@ namespace Marvel {
 			if (ImGui::SmallButton(m_label.c_str()))
 				mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
 
-			for (auto& item : mvAppItemSingleton::Colors())
+			for (auto& item : buttonTheme.getColors())
 			{
 				ImGui::PopStyleColor(1);
 			}
@@ -119,7 +119,7 @@ namespace Marvel {
 			if (ImGui::ArrowButton(m_label.c_str(), m_direction))
 				mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
 
-			for (auto& item : mvAppItemSingleton::Colors())
+			for (auto& item : buttonTheme.getColors())
 			{
 				ImGui::PopStyleColor(1);
 			}
@@ -130,7 +130,7 @@ namespace Marvel {
 		if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
 			mvCallbackRegistry::GetCallbackRegistry()->addCallback(getCallback(false), m_name, m_callbackData);
 
-		for (auto& item : mvAppItemSingleton::Colors())
+		for (auto& item : buttonTheme.getColors())
 		{
 			ImGui::PopStyleColor(1);
 		}
