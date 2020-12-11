@@ -76,7 +76,7 @@ namespace Marvel {
 		mvAppItemSingleton(int itemCode)
 			:itemCode(itemCode)
 		{
-			mvEventBus::Subscribe(this, SID("1"));
+			mvEventBus::Subscribe(this, SID(std::to_string(itemCode).c_str()));
 		};
 
 		std::vector<std::pair<int, mvColor>> getColors() { return m_colors; }
