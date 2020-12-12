@@ -68,12 +68,12 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvAppItemSingleton
 	//-----------------------------------------------------------------------------
-	class mvAppItemSingleton : public mvEventHandler
+	class mvAppItemTheme : public mvEventHandler
 	{
 
 	public:
 
-		mvAppItemSingleton(int itemCode)
+		mvAppItemTheme(int itemCode)
 			:itemCode(itemCode)
 		{
 			mvEventBus::Subscribe(this, SID(std::to_string(itemCode).c_str()));
@@ -85,7 +85,7 @@ namespace Marvel {
 
 		bool onEvent(mvEvent& event) override {
 			mvEventDispatcher dispatcher(event);
-			dispatcher.dispatch(BIND_EVENT_METH(mvAppItemSingleton::add_color), SID(std::to_string(itemCode).c_str()));
+			dispatcher.dispatch(BIND_EVENT_METH(mvAppItemTheme::add_color), SID(std::to_string(itemCode).c_str()));
 			return event.handled;
 		};
 

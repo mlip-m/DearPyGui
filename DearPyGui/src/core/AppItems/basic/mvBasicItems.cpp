@@ -73,7 +73,7 @@ namespace Marvel {
 		checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags, false);
 	}
 
-	mvAppItemSingleton buttonTheme = mvAppItemSingleton{ 1 };
+	mvAppItemTheme buttonTheme = mvAppItemTheme{ 1 };
 
 	mvButton::mvButton(const std::string& name)
 		: mvAppItem(name)
